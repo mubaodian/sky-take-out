@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/admin/category")
 @Slf4j
@@ -58,5 +60,17 @@ public class CategoryController {
         log.info("修改分类:{}",categoryDTO);
         categoryService.update(categoryDTO);
         return Result.success();
+    }
+
+    /**
+     * 根据类型查询分类
+     * @param type
+     * @return
+     */
+    @GetMapping("/list")
+    @ApiOperation("根据类型查询分类")
+    public Result<List<Category>> list(Integer type){
+        List<Category> list = categoryService.list(type);
+        return Result.success(list);
     }
 }
