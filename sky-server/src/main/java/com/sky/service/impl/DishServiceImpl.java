@@ -130,6 +130,10 @@ public class DishServiceImpl implements DishService {
         return dishVO;
     }
 
+    /**
+     * 更新菜品
+     * @param dishDTO
+     */
     @Override
     @Transactional
     public void update(DishDTO dishDTO) {
@@ -145,5 +149,16 @@ public class DishServiceImpl implements DishService {
             flavors.forEach(flavor -> flavor.setDishId(dishDTO.getId()));
             dishFlavorMapper.insertBatch(flavors);
         }
+    }
+
+    /**
+     * 根据分类id查询菜品
+     * @param categoryId
+     * @return
+     */
+    @Override
+    public List<DishVO> list(Long categoryId) {
+        List<DishVO> dishVOList = dishMapper.list(categoryId);
+        return dishVOList;
     }
 }

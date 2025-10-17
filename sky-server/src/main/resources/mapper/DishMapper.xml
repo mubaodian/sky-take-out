@@ -47,4 +47,10 @@
         </set>
         where id = #{id}
     </update>
+
+    <select id="list" parameterType="java.lang.Long" resultType="com.sky.vo.DishVO">
+        select * from dish
+        where category_id = #{categoryId} and status = 1
+        order by create_time desc
+    </select>
 </mapper>
