@@ -83,4 +83,11 @@
         </set>
         where id = #{id}
     </update>
+
+    <select id="list" resultType="setmeal">
+        select * from setmeal
+                 where status = 1
+        and category_id = #{categoryId}
+        order by create_time desc
+    </select>
 </mapper>
