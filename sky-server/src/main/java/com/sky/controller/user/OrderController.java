@@ -10,6 +10,7 @@ import com.sky.service.OrderService;
 import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
+import com.sky.webSocket.WebSocketServer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
     @Autowired
     private OrderService orderService;
+
 
     @PostMapping("submit")
     @ApiOperation("用户下单")
@@ -80,6 +82,12 @@ public class OrderController {
         return Result.success();
     }
 
-
+    @GetMapping("reminder/{id}")
+    @ApiOperation("客户催单")
+    public Result reminder(@PathVariable("id") Long id){
+        log.info("客户催单：{}",id);
+        orderService.reminder(id);
+        return Result.success();
+    }
 
 }

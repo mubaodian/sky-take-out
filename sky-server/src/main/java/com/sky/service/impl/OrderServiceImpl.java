@@ -393,6 +393,10 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.update(orders);
     }
 
+    /**
+     * 完成订单
+     * @param id
+     */
     @Override
     public void complete(Long id) {
         Orders orders = orderMapper.getById(id);
@@ -401,6 +405,26 @@ public class OrderServiceImpl implements OrderService {
         }
         orders.setStatus(Orders.COMPLETED);
         orderMapper.update(orders);
+    }
+
+    /**
+     * 客户催单
+     * @param id
+     */
+    @Override
+    public void reminder(Long id) {
+        Orders orders = orderMapper.getById(id);
+        if(orders == null ){
+            throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
+        }
+
+        //通过webSocket向客户端浏览器推送消息
+        Map map = new HashMap();
+        map.put("type",1);//1表示来单提醒，2表示客户催单
+        map.put("orderId",id);
+        map.put("content","订单号：" + orders.getNumber());
+        String json = JSON.toJSONString(map);
+        webSoketServer.sendToAllClient(json);
     }
 
 
